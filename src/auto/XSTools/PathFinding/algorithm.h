@@ -5,75 +5,70 @@
 extern "C" {
 #endif /* __cplusplus */
 
-typedef struct {
-	int x;
-	int y;
-	
-	unsigned long nodeAdress;
-	
-	unsigned int predecessor;
-	
-	unsigned int whichlist;
-	long openListIndex;
-	
-	unsigned long g;
-	unsigned long h;
-	unsigned long f;
-} Node;
 
 typedef struct {
-	bool avoidWalls;
-	
+	unsigned short x;
+	unsigned short y;
+} pos;
+
+typedef struct {
+	unsigned int size;
+	pos *array;
+} pos_list;
+
+typedef struct {
+	pos p;
+	int g;
+	int f;
+	int parent;
+} pos_ai;
+
+typedef struct {
+	unsigned int size;
+	pos_ai *array;
+} pos_ai_list;
+
+typedef struct {
+	int val;
+	int index;
+} QuicksortFloat;
+
+typedef struct {
+	unsigned int size;
+	QuicksortFloat *array;
+} index_list;
+
+typedef struct {
+	unsigned int size;
+	int *array;
+} lookups_list;
+
+typedef struct {
+	pos_list solution;
+	pos_ai_list fullList;
+	index_list openList;
+	lookups_list lookup;
+	const char* map;
+	const unsigned char* weight;
+	unsigned long width;
+	unsigned long height;
+	pos * start;
+	pos * dest;
 	unsigned long time_max;
-	
-	int width;
-	int height;
-	
-	int min_x;
-	int max_x;
-	int min_y;
-	int max_y;
-	
-	int startX;
-	int startY;
-	int endX;
-	int endY;
-	
-	int solution_size;
-	int initialized;
-	int run;
-	
-	long openListSize;
-	
-	int size;
-	
-	const char *map_base_weight;
-	Node *currentMap;
-	
-	unsigned long *openList;
+	int first_time;
+
+	void *map_sv;
+	void *weight_sv;
 } CalcPath_session;
 
+
 CalcPath_session *CalcPath_new ();
-
-int heuristic_cost_estimate(int currentX, int currentY, int goalX, int goalY);
-
-void openListAdd (CalcPath_session *session, Node* node);
-
-void reajustOpenListItem (CalcPath_session *session, Node* node);
-
-Node* openListGetLowest (CalcPath_session *session);
-
-void reconstruct_path(CalcPath_session *session, Node* goal, Node* start);
-
+CalcPath_session *CalcPath_init (CalcPath_session *session, const char* map, const unsigned char* weight,
+	unsigned long width, unsigned long height,
+	pos * start, pos * dest, unsigned long time_max);
 int CalcPath_pathStep (CalcPath_session *session);
- 
-void CalcPath_init (CalcPath_session *session);
-
-void free_currentMap (CalcPath_session *session);
-
-void free_openList (CalcPath_session *session);
-
 void CalcPath_destroy (CalcPath_session *session);
+
 
 #ifdef __cplusplus
 }

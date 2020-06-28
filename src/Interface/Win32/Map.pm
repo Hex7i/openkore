@@ -75,13 +75,13 @@ sub paintMap {
 	for (my $j = 0; $j < $mvw_x; $j++) {
 		for (my $k = 0; $k < $mvw_y; $k++) {
 			my $block = $field->getBlock($j, $mvw_y-$k);
-			if ($block == Field::TILE_WALK) {
+			if ($block == Field::WALKABLE) {
 				$DC2->SetPixel($j, $k, [202,255,228],);
-			} elsif ($block == Field::TILE_NOWALK) {
+			} elsif ($block == Field::NON_WALKABLE) {
 				$DC2->SetPixel($j, $k, [181,182,181],);
-			} elsif ($block == Field::TILE_WALK|Field::TILE_WATER) {
+			} elsif ($block == Field::WALKABLE_WATER) {
 				$DC2->SetPixel($j, $k, [255,0,0],);
-			} elsif ($block == Field::TILE_CLIFF|Field::TILE_SNIPE) {
+			} elsif ($block == Field::SNIPABLE_CLIFF) {
 				$DC2->SetPixel($j, $k, [194,135,135],);
 			}
 		}
